@@ -1,5 +1,6 @@
 --CREACION DE BASE DE DATOS--
---Creacion de Filegroups para los diversos Esquemas....
+--Creacion de Filegroups (Se utilizo la ubicacion C:\ para evitar problemas al testearlo por el docente
+--entendemos que estos archivos deben estar aislados y separados para mayor productividad y seguridad....
 CREATE DATABASE Banco
 ON PRIMARY (
 NAME = N'Banco',
