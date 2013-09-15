@@ -1,5 +1,5 @@
 --CREACION DE BASE DE DATOS--
-
+--Creacion de Filegroups para los diversos Esquemas....
 CREATE DATABASE Banco
 ON PRIMARY (
 NAME = N'Banco',
@@ -37,21 +37,17 @@ FILENAME = N'C:\Banco_log.ldf',
 SIZE = 100MB,
 FILEGROWTH = 10MB)
 GO
-	
+
+--Uso de la base de datos "Banco"	
 USE Banco
-go
+GO
 
+---------------------------------------------------------------------------------------------
+--Creacion del Esquema "Person"
 CREATE SCHEMA Person AUTHORIZATION dbo
-go
+GO
 
-/* CREACION DE SEQUENCES */
-
---CREATE SEQUENCE Persona.SEQ_EMPLEADO
---	START WITH 1 
---	INCREMENT BY 1
---GO
-
-
+--Creacion de la tabla Persona la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.PERSONA (
 	idPersona BIGINT IDENTITY not null,
 	indActivo VARCHAR(1) not null
@@ -64,6 +60,7 @@ CREATE TABLE Person.PERSONA (
 )
 GO
 
+--Creacion de la tabla PERSONA_NATURAL la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.PERSONA_NATURAL (
 	idPersona BIGINT not null,
 	primerNombre varchar(30) not null,
@@ -77,6 +74,7 @@ CREATE TABLE Person.PERSONA_NATURAL (
 )
 GO
 
+----Creacion de la tabla PERSONA_JURIDICA la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.PERSONA_JURIDICA (
 	idPersona BIGINT not null,
 	razonSocial varchar(50) not null,
@@ -86,7 +84,7 @@ CREATE TABLE Person.PERSONA_JURIDICA (
 )
 GO
 
-
+--Creacion de la tabla TIPO_DOCUMENTO la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.TIPO_DOCUMENTO (
 	idTipoDocumento smallint not null,
 	descripcion varchar(50) not null,
@@ -94,6 +92,7 @@ CREATE TABLE Person.TIPO_DOCUMENTO (
 )
 GO
 
+--Creacion de la tabla DOCUMENTO la cual se encuenttra dentro del Esquema Person
 CREATE TABLE Person.DOCUMENTO (
 	idDocumento BIGINT not null,
 	valorDocumento varchar(50) not null,
@@ -105,6 +104,7 @@ CREATE TABLE Person.DOCUMENTO (
 )
 GO
 
+--Creacion de la tabla TIPO_MEDIO_CONTACTO la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.TIPO_MEDIO_CONTACTO (
 	idTipoMedioContacto smallint not null,
 	descripcion varchar(50) not null,
@@ -112,6 +112,7 @@ CREATE TABLE Person.TIPO_MEDIO_CONTACTO (
 )
 GO
 
+--Creacion de la tabla MEDIO_CONTACTO la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.MEDIO_CONTACTO (
 	idMedioContacto BIGINT not null,
 	valorMedioContacto varchar(100) not null,
@@ -123,7 +124,7 @@ CREATE TABLE Person.MEDIO_CONTACTO (
 )
 GO
 
-
+--Creacion de la tabla TIPO_CARGO la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.TIPO_CARGO
 (
 	idTipoCargo smallint not null,
@@ -131,8 +132,9 @@ CREATE TABLE Person.TIPO_CARGO
 	descripcionTipoCargo varchar(100) not null,
 	constraint PK_Person_TIPO_CARGO primary key(idTipoCargo)
 )
-go
+GO
 
+--Creacion de la tabla CARGO la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.CARGO
 (
 	idCargo smallint not null,
@@ -143,8 +145,9 @@ CREATE TABLE Person.CARGO
 	constraint PK_Person_CARGO primary key(idCargo),
 	constraint FK_Person_TIPO_CARGO_X_CARGO foreign key(idTipoCargo) references Person.TIPO_CARGO(idTipoCargo)
 )
-go
+GO
 
+--Creacion de la tabla EMPLEADO la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.EMPLEADO (
 	idPersonaNatural bigint not null,
 	idJefe bigint not null,
@@ -156,13 +159,17 @@ CREATE TABLE Person.EMPLEADO (
 	constraint FK_Person_PERSONA_NATURAL_X_EMPLEADO foreign key(idPersonaNatural) references Person.PERSONA_NATURAL(idPersona),
 	constraint FK_Person_CARGO_X_EMPLEADO foreign key(idCargo) references Person.CARGO(idCargo)
 )
-go
+GO
 
+
+--Creacion de Restricción Check - Fecha de Ingreso a la tabla EMPLEADO 
+--dentro la cual se encuentra dentro del Esquema Person
 alter table Person.EMPLEADO
 add constraint ceck_fecha_salida check(fechaIngreso > fechaIngreso)
+GO
 
-go
-
+--Creacion de llave foránea idJefe ==> idPersonaNatural ambos campos de la misma Tabla Empleado la
+--cual se encuentra dentro del Esquema Person
 alter table Person.EMPLEADO
 add constraint FK_Person_EMPLEADO_X_EMPLEADO 
 foreign key(idJefe) 
@@ -170,10 +177,12 @@ references Person.EMPLEADO(idPersonaNatural)
 go
 
 
+---------------------------------------------------------------------------------------------
+--Creacion del Esquema "Ubicacion"
 CREATE SCHEMA Ubicacion AUTHORIZATION dbo
 go
 
-
+--Creación de la tabla PAIS la cual se encuentra dentro del Esquema Ubicacion
 CREATE TABLE Ubicacion.PAIS (
 	idPais INT not null,
 	nombrePais varchar(100) not null unique,
@@ -181,6 +190,7 @@ CREATE TABLE Ubicacion.PAIS (
 )
 GO
 
+--Creación de la tabla DEPARTAMENTO la cual se encuentra dentro del Esquema Ubicacion
 CREATE TABLE Ubicacion.DEPARTAMENTO (
 	idDepartamento INT not null,
 	nombreDepartamento varchar(100) not null,
@@ -190,6 +200,7 @@ CREATE TABLE Ubicacion.DEPARTAMENTO (
 )
 GO
 
+--Creación de la tabla CIUDAD la cual se encuentra dentro del Esquema Ubicacion
 CREATE TABLE Ubicacion.CIUDAD (
 	idCiudad int not null,
 	nombreCiudad varchar(100) not null,
@@ -199,6 +210,7 @@ CREATE TABLE Ubicacion.CIUDAD (
 )
 GO
 
+--Creación de la tabla DIRECCION la cual se encuentra dentro del Esquema Ubicacion
 CREATE TABLE Ubicacion.DIRECCION
 (
 	idDireccion BIGINT Identity not null,
@@ -212,7 +224,21 @@ CREATE TABLE Ubicacion.DIRECCION
 	constraint FK_Ubicacion_CIUDAD_X_DIRECCION foreign key(idCiudad) references Ubicacion.CIUDAD(idCiudad),
 )
 GO
+--Creacion de la tabla SUCURSAL la cual se encuentra dentro del Esquema Ubicacion
+CREATE TABLE Ubicacion.SUCURSAL (
+	idSucursal BIGINT identity not null,
+	nombreSucursal varchar(100) not null,
+	idDireccion BIGINT not null,
+	constraint FK_Ubicacion_DIRECCION_X_SUCURSAL foreign key(idDireccion) references Ubicacion.DIRECCION(idDireccion),
+	constraint PK_Person_SUCURSAL primary key (idSucursal),
+)
+GO
 
+--NOTA IMPORTANTE: La tabla ASIGNACIONDIRECCION del Esquema "Person" necesariamente tiene que estar en esta posición
+--para que no surgan errores mas adelante a la hora de ejecutar el script, ya que la tabla "ASIGNACIONDIRECCION"
+--necesita de la tabla DIRECCION la cual se encuentra dentro del Esquema "Ubicacion"
+
+--Creacion de la tabla ASIGNACIONDIRECCION la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.ASIGNACIONDIRECCION
 (
 	idPersona bigint not null,
@@ -220,11 +246,15 @@ CREATE TABLE Person.ASIGNACIONDIRECCION
 	constraint FK_Person_PERSONA_X_ASIGNACIONDIRECCION foreign key(idPersona) references Person.PERSONA(idPersona),
 	constraint FK_Ubicacion_DIRECCION_X_ASIGNACIONDIRECCION foreign key(idDireccion) references Ubicacion.DIRECCION(idDireccion)
 )
-go
+GO
 
+---------------------------------------------------------------------------------------------
+--Creacion del Esquema "Cuentas"
 
 CREATE SCHEMA Cuentas AUTHORIZATION dbo
-go
+GO
+
+--Creacion de la tabla CUENTA la cual se encuentra dentro del Esquema Cuentas
 
 CREATE TABLE Cuentas.CUENTA (
 	idCuenta BIGINT identity not null,
@@ -238,46 +268,9 @@ CREATE TABLE Cuentas.CUENTA (
 	constraint PK_Cuentas_CUENTA primary key (idCuenta),
 	constraint FK_Cuentas_PERSONA_X_CUENTA foreign key(idPersona) references Person.PERSONA(idPersona)
 )
-go
-
-CREATE TABLE Ubicacion.SUCURSAL (
-	idSucursal BIGINT identity not null,
-	nombreSucursal varchar(100) not null,
-	idDireccion BIGINT not null,
-	constraint FK_Ubicacion_DIRECCION_X_SUCURSAL foreign key(idDireccion) references Ubicacion.DIRECCION(idDireccion),
-	constraint PK_Person_SUCURSAL primary key (idSucursal),
-)
 GO
 
-CREATE SCHEMA Transaccion AUTHORIZATION dbo
-go
-
-
-
-CREATE TABLE Transaccion.MOVIMIENTO (
-	idMovimiento BIGINT identity not null,
-	cantidadMovimiento decimal(8,2) not null,
-	fechaMovimiento date not null constraint default_fechamovimiento_movimiento default getdate(),
-	idSucursal BIGINT not null,
-	idCuenta BIGINT not null,
-	idEmpleado bigint not null,
-	constraint PK_Transaccion_MOVIMIENTO primary key(idMovimiento),
-	constraint FK_Transaccion_CUENTA_MOVIMIENTO foreign key(idCuenta) references Cuentas.CUENTA(idCuenta),
-	constraint FK_Transaccion_SUCURSAL_X_MOVIMIENTO foreign key(idSucursal) references Ubicacion.SUCURSAL(idSucursal),
-	constraint FK_Transaccion_EMPLEADO_X_MOVIMIENTO foreign key(idEmpleado) references Person.EMPLEADO(idPersonaNatural)
-)
-go
-
-CREATE TABLE Transaccion.MOVIMIENTO_TRANSFERENCIA (
-	idMovimiento BIGINT not null,
-	idCuentaDestino bigint not null,
-	descripcion varchar(100) not null,
-	constraint PK_Transaccion_MOVIMIENTO_TRANSFERENCIA primary key (idMovimiento),
-	constraint PK_Transaccion_MOVIMIENTO_X_MOVIMIENTO_TRANSFERENCIA foreign key(idMovimiento) references Transaccion.MOVIMIENTO(idMovimiento),
-	constraint PK_Transaccion_CUENTA_X_MOVIMIENTO_TRANSFERENCIA foreign key(idCuentaDestino) references Cuentas.CUENTA(idCuenta)
-)
-GO
-
+--Creacion de la tabla CUENTA_PLAZO_FIJO la cual se encuentra dentro del Esquema "Cuentas"
 
 CREATE TABLE Cuentas.CUENTA_PLAZO_FIJO (
 	idCuenta BIGINT not null,
@@ -289,7 +282,7 @@ CREATE TABLE Cuentas.CUENTA_PLAZO_FIJO (
 	constraint FK_Cuentas_CUENTA_X_CUENTA_PLAZO_FIJO foreign key(idCuenta) references Cuentas.CUENTA(idCuenta)
 )
 GO
-
+--Creacion de la tabla TIPO_TARJETA la cual se encuentra dentro del Esquema "Cuentas"
 CREATE TABLE Cuentas.TIPO_TARJETA
 (
 	idTipoTarjeta smallint not null,
@@ -297,6 +290,8 @@ CREATE TABLE Cuentas.TIPO_TARJETA
 	constraint PK_Cuentas_TIPO_TARJETA primary key(idTipoTarjeta)
 )
 GO
+
+--Creacion de la tabla MARCA_TARJETA la cual se encuentra dentro del Esquema "Cuentas"
 
 CREATE TABLE Cuentas.MARCA_TARJETA
 (
@@ -306,6 +301,8 @@ CREATE TABLE Cuentas.MARCA_TARJETA
 )
 GO
 
+--Creacion de la tabla ESTADO_TARJETA la cual se encuentra dentro del Esquema "Cuentas"
+
 CREATE TABLE Cuentas.ESTADO_TARJETA
 (
 	idEstadoTarjeta tinyint not null,
@@ -314,6 +311,8 @@ CREATE TABLE Cuentas.ESTADO_TARJETA
 	constraint PK_Cuentas_ESTADO_TARJETA primary key(idEstadoTarjeta),
 )
 GO
+
+--Creacion de la tabla TARJETA la cual se encuentra dentro del Esquema "Cuentas"
 
 CREATE TABLE Cuentas.TARJETA
 (
@@ -330,8 +329,9 @@ CREATE TABLE Cuentas.TARJETA
 	constraint FK_Cuentas_TIPO_TARJETA_X_TARJETA foreign key(idTipoTarjeta) references Cuentas.TIPO_TARJETA(idTipoTarjeta),
 	constraint FK_Cuentas_MARCA_TARJETA_X_TARJETA foreign key(idMarcaTarjeta) references Cuentas.MARCA_TARJETA(idMarcaTarjeta)
 )
-go
+GO
 
+--Creacion de la tabla ASIGNACIONTARJETA la cual se encuentra dentro del Esquema "Cuentas"
 
 CREATE TABLE Cuentas.ASIGNACIONTARJETA
 (
@@ -341,13 +341,48 @@ CREATE TABLE Cuentas.ASIGNACIONTARJETA
 	constraint FK_Cuentas_CUENTA_X_ASIGNACIONTARJETA foreign key(idCuenta) references Cuentas.CUENTA(idCuenta),
 )
 GO
+---------------------------------------------------------------------------------------------
+--Creacion del Esquema "Transaccion"
+
+CREATE SCHEMA Transaccion AUTHORIZATION dbo
+GO
 
 
+--Creacion de la tabla MOVIMIENTO la cual se encuentra dentro del Esquema "Transaccion"
 
+CREATE TABLE Transaccion.MOVIMIENTO (
+	idMovimiento BIGINT identity not null,
+	cantidadMovimiento decimal(8,2) not null,
+	fechaMovimiento date not null constraint default_fechamovimiento_movimiento default getdate(),
+	idSucursal BIGINT not null,
+	idCuenta BIGINT not null,
+	idEmpleado bigint not null,
+	constraint PK_Transaccion_MOVIMIENTO primary key(idMovimiento),
+	constraint FK_Transaccion_CUENTA_MOVIMIENTO foreign key(idCuenta) references Cuentas.CUENTA(idCuenta),
+	constraint FK_Transaccion_SUCURSAL_X_MOVIMIENTO foreign key(idSucursal) references Ubicacion.SUCURSAL(idSucursal),
+	constraint FK_Transaccion_EMPLEADO_X_MOVIMIENTO foreign key(idEmpleado) references Person.EMPLEADO(idPersonaNatural)
+)
+GO
+
+--Creacion de la tabla MOVIMIENTO_TRANSFERENCIA la cual se encuentra dentro del Esquema "Transaccion"
+
+CREATE TABLE Transaccion.MOVIMIENTO_TRANSFERENCIA (
+	idMovimiento BIGINT not null,
+	idCuentaDestino bigint not null,
+	descripcion varchar(100) not null,
+	constraint PK_Transaccion_MOVIMIENTO_TRANSFERENCIA primary key (idMovimiento),
+	constraint PK_Transaccion_MOVIMIENTO_X_MOVIMIENTO_TRANSFERENCIA foreign key(idMovimiento) references Transaccion.MOVIMIENTO(idMovimiento),
+	constraint PK_Transaccion_CUENTA_X_MOVIMIENTO_TRANSFERENCIA foreign key(idCuentaDestino) references Cuentas.CUENTA(idCuenta)
+)
+GO
+
+---------------------------------------------------------------------------------------------
+--Creacion del Esquema "Historial"
 
 CREATE SCHEMA Historial AUTHORIZATION dbo
-go
+GO
 
+--Creacion de la tabla PERSONA la cual se encuentra dentro del Esquema "Historial"
 
 CREATE TABLE Historial.PERSONA
 (
@@ -358,7 +393,9 @@ CREATE TABLE Historial.PERSONA
 	codUsuario varchar(30) not null,
 	constraint PK_Historial_PERSONA primary key (idHistorialPersona)
 )
-go
+GO
+
+--Creacion de la tabla CUENTA la cual se encuentra dentro del Esquema "Historial"
 
 CREATE TABLE Historial.CUENTA
 (
@@ -373,7 +410,9 @@ CREATE TABLE Historial.CUENTA
 	constraint PK_Historial_CUENTA primary key (idHistorialCuenta),
 	constraint FK_Historial_PERSONA_X_CUENTA foreign key(idPersona) references Person.PERSONA(idPersona)
 )
-go
+GO
+
+--Creacion de la tabla MOVIMIENTO la cual se encuentra dentro del Esquema "Historial"
 
 CREATE TABLE Historial.MOVIMIENTO
 (
@@ -389,6 +428,9 @@ CREATE TABLE Historial.MOVIMIENTO
 	constraint FK_Historial_SUCURSAL_X_MOVIMIENTO foreign key(idSucursal) references Ubicacion.SUCURSAL(idSucursal),
 	constraint FK_Historial_EMPLEADO_X_MOVIMIENTO foreign key(idEmpleado) references Person.EMPLEADO(idPersonaNatural)
 )
+GO
+
+--Creacion de la tabla TIPO_SERIAL la cual se encuentra dentro del Esquema "Historial"
 
 CREATE TABLE Historial.TIPO_SERIAL
 (
@@ -397,7 +439,9 @@ CREATE TABLE Historial.TIPO_SERIAL
 	descripcion varchar(100) not null,
 	constraint PK_Historial_TIPO_SERIAL primary key(idTipoSerial)
 )
-go
+GO
+
+--Creacion de la tabla SERIAL la cual se encuentra dentro del Esquema "Historial"
 
 CREATE TABLE Historial.SERIAL
 (
@@ -408,3 +452,4 @@ CREATE TABLE Historial.SERIAL
 	constraint PK_Historial_SERIAL primary key(idSerial),
 	constraint FK_Historial_TIPO_SERIAL_X_SERIAL foreign key(idTipoSerial) references Historial.TIPO_SERIAL(idTipoSerial)
 )
+GO
