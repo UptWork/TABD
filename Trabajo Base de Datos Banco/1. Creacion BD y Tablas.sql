@@ -1,6 +1,43 @@
-CREATE DATABASE Banco
-GO
+--CREACION DE BASE DE DATOS--
 
+CREATE DATABASE Banco
+ON PRIMARY (
+NAME = N'Banco',
+FILENAME = N'C:\Banco.mdf',
+SIZE = 50MB,
+FILEGROWTH = 10MB),
+FILEGROUP FG_PERSON(
+NAME = N'Person',
+FILENAME = N'C:\Person.mdf',
+SIZE = 50MB,
+FILEGROWTH = 10MB), 
+FILEGROUP FG_CUENTAS (
+NAME = N'Cuentas',
+FILENAME = N'C:\Cuentas.mdf',
+SIZE = 50MB,
+FILEGROWTH = 10MB),
+FILEGROUP FG_UBICACION(
+NAME = N'Ubicacion',
+FILENAME = N'C:\Ubicacion.mdf',
+SIZE = 50MB,
+FILEGROWTH = 10MB) 
+,FILEGROUP FG_TRANSACCION(
+NAME = N'Transaccion',
+FILENAME = N'C:\Transaccion.mdf',
+SIZE = 50MB,
+FILEGROWTH = 10MB)
+,FILEGROUP FG_HISTORIAL(
+NAME = N'Historial',
+FILENAME = N'C:\Historial.mdf',
+SIZE = 50MB,
+FILEGROWTH = 10MB) 
+LOG ON (
+NAME = N'Banco_log',
+FILENAME = N'C:\Banco_log.ldf',
+SIZE = 100MB,
+FILEGROWTH = 10MB)
+GO
+	
 USE Banco
 go
 
@@ -19,7 +56,7 @@ CREATE TABLE Person.PERSONA (
 	idPersona BIGINT IDENTITY not null,
 	indActivo VARCHAR(1) not null
 		CONSTRAINT default_persona_indActivo default 'A',
-	fecRegistro DATETIME not null
+	fechaRegistro DATETIME not null
 		constraint default_persona_fecRegistro default GETDATE(),
 	codUsuario varchar(30) not null
 		constraint default_persona_codUsuario default suser_name(),
@@ -33,7 +70,7 @@ CREATE TABLE Person.PERSONA_NATURAL (
 	segundoNombre varchar(30) null,
 	apellidoPaterno varchar(30) not null,
 	apellidoMaterno varchar(30) not null,
-	fecNacimiento date not null,
+	fechaNacimiento date not null,
 	sexo varchar(1) not null,
 	constraint PK_Person_PERSONA_NATURAL primary key (idPersona),
 	constraint FK_Person_PERSONA_X_PERSONA_NATURAL foreign key(idPersona) references Person.PERSONA(idPersona)
@@ -113,7 +150,7 @@ CREATE TABLE Person.EMPLEADO (
 	idJefe bigint not null,
 	idCargo smallint not null,
 	codigoEmpleado as 'EMP-'+replace(str(idPersonaNatural,5),' ','0'),
-	fechaIngreso date not null check(fechaIngreso > '01/01/1990'),
+	fechaIngreso date not null constraint check_fechaingreso_empleado check(fechaIngreso > '01/01/1990'),
 	fechaSalida date not null,
 	constraint PK_Person_EMPLEADO primary key(idPersonaNatural),
 	constraint FK_Person_PERSONA_NATURAL_X_EMPLEADO foreign key(idPersonaNatural) references Person.PERSONA_NATURAL(idPersona),
@@ -245,7 +282,7 @@ GO
 CREATE TABLE Cuentas.CUENTA_PLAZO_FIJO (
 	idCuenta BIGINT not null,
 	fechaInicio date not null constraint default_fechaInicio_cuenta_plazo_fijo default getdate(),
-	fecTermino date not null,
+	fechaTermino date not null,
 	cantidadInicial decimal(8,2) not null,
 	cantidadFinal decimal(8,2) not null,
 	constraint PK_Cuentas_CUENTA_PLAZO_FIJO primary key (idCuenta),

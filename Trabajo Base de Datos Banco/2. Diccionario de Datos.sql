@@ -1,5 +1,7 @@
 -----------PARTE EDUU-------------------------------------------------------------------------
 --TABLA TRANSACCION.MOVIMIENTO
+USE Banco
+go
 
 EXEC sys.sp_addextendedproperty
 	@name = 'MS_Description', @value = 'Entidad Movimiento',
@@ -323,12 +325,6 @@ EXEC sys.sp_addextendedproperty
 @level2type=N'COLUMN', @level2name='apellidoMaterno'
 GO
 
-EXEC sys.sp_updateextendedproperty
-@name='MS_Description', @value='fecha de nacimiento de la persona natural',
-@level0type=N'SCHEMA', @level0name='Person',
-@level1type=N'TABLE', @level1name='PERSONA_NATURAL',
-@level2type=N'COLUMN', @level2name='fechaNacimiento'
-GO
 
 EXEC sys.sp_addextendedproperty
 @name='MS_Description', @value='sexo de la persona natural',
@@ -792,7 +788,7 @@ GO
 
 /*******************TABLA SERIAL***********************/
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla conteniente de los registros historiales de los seriales',
+	@name = 'MS_Description', @value='Tabla que contiene los numeros autoincrementables para las tablas transaccionales',
 	@level0type = N'SCHEMA', @level0name = 'Historial',
 	@level1type = N'TABLE', @level1name = 'SERIAL'
 GO
@@ -809,13 +805,6 @@ EXEC sys.sp_addextendedproperty
 	@level0type = N'SCHEMA', @level0name = 'Historial',
 	@level1type = N'TABLE', @level1name = 'SERIAL',
 	@level2type = N'COLUMN', @level2name = 'idTipoSerial'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador unico para cada tipo de historial de la cuenta',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'SERIAL',
-	@level2type = N'COLUMN', @level2name = 'idSerial'
 GO
 
 EXEC sys.sp_addextendedproperty
@@ -1017,16 +1006,16 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo fecInicio entidad CUENTA_PLAZO_FIJO',
+	@name = 'MS_Description', @value='campo fechaInicio entidad CUENTA_PLAZO_FIJO',
 	@level0type = N'SCHEMA', @level0name = 'Cuentas',
 	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
-	@level2type = N'COLUMN', @level2name = 'fecInicio'
+	@level2type = N'COLUMN', @level2name = 'fechaInicio'
 GO
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo fecTermino entidad CUENTA_PLAZO_FIJO',
+	@name = 'MS_Description', @value='campo fechaTermino entidad CUENTA_PLAZO_FIJO',
 	@level0type = N'SCHEMA', @level0name = 'Cuentas',
 	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
-	@level2type = N'COLUMN', @level2name = 'fecTermino'
+	@level2type = N'COLUMN', @level2name = 'fechaTermino'
 GO
 EXEC sys.sp_addextendedproperty
 	@name = 'MS_Description', @value='campo cantidadInicial entidad CUENTA_PLAZO_FIJO',
@@ -1044,48 +1033,8 @@ GO
 /*--------*/
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion PERSONA',
-	@level0type = N'SCHEMA', @level0name = 'Historia',
-	@level1type = N'TABLE', @level1name = 'PERSONA'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='identificador unico de la entidad idHistorialPersona',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'PERSONA',
-	@level2type = N'COLUMN', @level2name = 'idHistorialPersona'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='identificar foraneo idPersona la entidad idHistorialPersona',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'PERSONA',
-	@level2type = N'COLUMN', @level2name = 'idPersona'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo indActivo de la entidad idHistorialPersona',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'PERSONA',
-	@level2type = N'COLUMN', @level2name = 'indActivo'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo fechaRegistro de la entidad idHistorialPersona',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'PERSONA',
-	@level2type = N'COLUMN', @level2name = 'fechaRegistro'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo codUsuario de la entidad idHistorialPersona',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'PERSONA',
-	@level2type = N'COLUMN', @level2name = 'codUsuario'
-GO
-
-/*------------*/
-EXEC sys.sp_addextendedproperty
 	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion TIPO_SERIAL',
-	@level0type = N'SCHEMA', @level0name = 'Historia',
+	@level0type = N'SCHEMA', @level0name = 'Historial',
 	@level1type = N'TABLE', @level1name = 'TIPO_SERIAL'
 GO
 EXEC sys.sp_addextendedproperty
@@ -1127,38 +1076,4 @@ SELECT t.name
 	and d2.minor_id = c.column_id
 	WHERE type = 'U'
 
-	--GRUPO DE ARCHIVOS
-
-	CREATE DATABASE Banco
-	CONTAINMENT = NONE
-	ON PRIMARY (
-	NAME = N'Banco',
-	FILENAME = N'F:\DATA\Banco.mdf',
-	SIZE = 50MB,
-	FILEGROWTH = 10MB),
-	FILEGROUP FG_PERSON(
-	NAME = N'Person',
-	FILENAME = N'F:\DATA\Person.mdf',
-	SIZE = 50MB,
-	FILEGROWTH = 10MB), 
-	FILEGROUP FG_CUENTAS (
-	NAME = N'Cuentas',
-	FILENAME = N'E:\DATA\Cuentas.mdf',
-	SIZE = 50MB,
-	FILEGROWTH = 10MB),
-	FILEGROUP FG_UBICACION(
-	NAME = N'Ubicacion',
-	FILENAME = N'G:\DATA\Ubicacion.mdf',
-	SIZE = 50MB,
-	FILEGROWTH = 10MB) 
-	,FILEGROUP FG_TRANSACCION(
-	NAME = N'Transaccion',
-	FILENAME = N'G:\DATA\Transaccion.mdf',
-	SIZE = 50MB,
-	FILEGROWTH = 10MB) 
-	LOG ON (
-	NAME = N'Banco_log',
-	FILENAME = N'G:\DATA\Banco_log.ldf',
-	SIZE = 100MB,
-	FILEGROWTH = 10MB)
-	GO
+	
