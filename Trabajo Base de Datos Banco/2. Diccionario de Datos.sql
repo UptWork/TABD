@@ -1,102 +1,272 @@
------------PARTE EDUU-------------------------------------------------------------------------
---TABLA TRANSACCION.MOVIMIENTO
+/*Trabajo Base de Datos Banco/Diccionario de Datos*/
+
+
 USE Banco
 go
+/*PRIMER SCHEMA*/
+/* DICCIONARIO DEL SCHEMA "Tabla Cuentas.ASIGNACIONTARJETA" */
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Entidad Movimiento',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO'
+	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'ASIGNACIONTARJETA'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Identificador unico de la entidad Movimiento',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
-	@level2type = N'COLUMN', @level2name= 'idMovimiento'
+	@name = 'MS_Description', @value='llave foranea idTarjeta en asignacion tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'ASIGNACIONTARJETA',
+	@level2type = N'COLUMN', @level2name = 'idTarjeta'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Cantidad del Movimiento',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
-	@level2type = N'COLUMN', @level2name= 'cantidadMovimiento'
+	@name = 'MS_Description', @value='lleva foranea idCuenta en asignacion tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'ASIGNACIONTARJETA',
+	@level2type = N'COLUMN', @level2name = 'idCuenta'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Cuentas.CUENTA" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion Cuenta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='identificador unico de la entidad Cuenta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA',
+	@level2type = N'COLUMN', @level2name = 'idCuenta'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Fecha del Movimiento',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
-	@level2type = N'COLUMN', @level2name= 'fechaMovimiento'
+	@name = 'MS_Description', @value='llave foranea idPersona en entidad Cuenta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA',
+	@level2type = N'COLUMN', @level2name = 'idPersona'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'ID de la Sucursal asociada a la Entidad .Movimiento',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
-	@level2type = N'COLUMN', @level2name= 'idSucursal'
+	@name = 'MS_Description', @value='campo saldo de la entidad Cuenta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA',
+	@level2type = N'COLUMN', @level2name = 'saldo'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo interes de la entidad Cuenta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA',
+	@level2type = N'COLUMN', @level2name = 'interes'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo indCuentaActivo de la entidad Cuenta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA',
+	@level2type = N'COLUMN', @level2name = 'indCuentaActivo'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo fecRegistro de la entidad Cuenta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA',
+	@level2type = N'COLUMN', @level2name = 'fecRegistro'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo codUsuario de la entidad Cuenta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA',
+	@level2type = N'COLUMN', @level2name = 'codUsuario'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Cuentas.CUENTA_PLAZO_FIJO" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion CUENTA_PLAZO_FIJO',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='identificador foreneo idCuenta de la entidad CUENTA_PLAZO_FIJO',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
+	@level2type = N'COLUMN', @level2name = 'idCuenta'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'ID de la Cuenta asociada a la Entidad Movimiento',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
-	@level2type = N'COLUMN', @level2name= 'idCuenta'
+	@name = 'MS_Description', @value='campo fechaInicio entidad CUENTA_PLAZO_FIJO',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
+	@level2type = N'COLUMN', @level2name = 'fechaInicio'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo fechaTermino entidad CUENTA_PLAZO_FIJO',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
+	@level2type = N'COLUMN', @level2name = 'fechaTermino'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo cantidadInicial entidad CUENTA_PLAZO_FIJO',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
+	@level2type = N'COLUMN', @level2name = 'cantidadInicial'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo cantidadFinal entidad CUENTA_PLAZO_FIJO',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
+	@level2type = N'COLUMN', @level2name = 'cantidadFinal'
 GO
 
---TABLA TRANSACCION.MOVIMIENTO_TRANSFERENCIA
+/* DICCIONARIO DEL SCHEMA "Tabla Cuentas.ESTADO_TARJETA" */
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Entidad Movimiento_Transferencia',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO_TRANSFERENCIA'
+	@name = 'MS_Description', @value='Tabla que contiene datos de estado tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'ESTADO_TARJETA'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Identificador Unico de la Entidad Movimiento_Transferencia',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO_TRANSFERENCIA',
-	@level2type = N'COLUMN', @level2name= 'idMovimiento'
+	@name = 'MS_Description', @value='identificador unico de la entidad estado tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'ESTADO_TARJETA',
+	@level2type = N'COLUMN', @level2name = 'idEstadoTarjeta'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo estado tarjeta de la entidad estado tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'ESTADO_TARJETA',
+	@level2type = N'COLUMN', @level2name = 'estadoTarjeta'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo descripcion de la entidad estado tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'ESTADO_TARJETA',
+	@level2type = N'COLUMN', @level2name = 'descripcion'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Cuentas.MARCA_TARJETA" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene datos de marca tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'MARCA_TARJETA'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Identificador Unico de la Cuenta de Destino enlazada a la Entidad MOVIMIENTO_TRANSFERENCIA',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO_TRANSFERENCIA',
-	@level2type = N'COLUMN', @level2name= 'idCuentaDestino'
+	@name = 'MS_Description', @value='identificador unico de la entidad marca tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'MARCA_TARJETA',
+	@level2type = N'COLUMN', @level2name = 'idMarcaTarjeta'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo  nombreMarca de la entidad marca tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'MARCA_TARJETA',
+	@level2type = N'COLUMN', @level2name = 'nombreMarca'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Cuentas.TARJETA" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene datos de las tarjetas',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TARJETA'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Descripcion de la Transferencia',
-	@level0type = N'SCHEMA', @level0name = 'Transaccion',
-	@level1type = N'TABLE', @level1name = 'MOVIMIENTO_TRANSFERENCIA',
-	@level2type = N'COLUMN', @level2name= 'descripcion'
+	@name = 'MS_Description', @value='identificador unico de la entidad tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TARJETA',
+	@level2type = N'COLUMN', @level2name = 'idTarjeta'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo valor de tarjeta de la entidad tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TARJETA',
+	@level2type = N'COLUMN', @level2name = 'valorTarjeta'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo codigo de verificacion de la entidad tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TARJETA',
+	@level2type = N'COLUMN', @level2name = 'codigoVerificacion'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo fecha emision de la entindad tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TARJETA',
+	@level2type = N'COLUMN', @level2name = 'fechaEmision'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo fecha vencimiento de la entidad tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TARJETA',
+	@level2type = N'COLUMN', @level2name = 'fecVencimiento'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='llave foranea idTipotarjeta en de la entidad tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TARJETA',
+	@level2type = N'COLUMN', @level2name = 'idTipoTarjeta'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='llave foranea idMarcaTarjeta en de la entidad tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TARJETA',
+	@level2type = N'COLUMN', @level2name = 'idMarcaTarjeta'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='llave foranea idEstadoTarjeta en de la entidad tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TARJETA',
+	@level2type = N'COLUMN', @level2name = 'idEstadoTarjeta'
 GO
 
-
---Tabla Person.TIPO_DOCUMENTO
+/* DICCIONARIO DEL SCHEMA "Tabla Cuentas.TIPO_TARJETA" */
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Entidad TIPO_DOCUMENTO',
+	@name = 'MS_Description', @value='Tabla que contiene los registros de cada tipo de tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TIPO_TARJETA'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador unico para cada tipo de tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TIPO_TARJETA',
+	@level2type = N'COLUMN', @level2name = 'idTipoTarjeta'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Descripcion del tipo de la tarjeta',
+	@level0type = N'SCHEMA', @level0name = 'Cuentas',
+	@level1type = N'TABLE', @level1name = 'TIPO_TARJETA',
+	@level2type = N'COLUMN', @level2name = 'descripcion'
+GO
+
+/*SEGUNDO SCHEMA*/
+/* DICCIONARIO DEL SCHEMA "Tabla Person.ASIGNACIONDIRECCION" */
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Entidad ASIGNACIONDIRECCION',
 	@level0type = N'SCHEMA', @level0name = 'Person',
-	@level1type = N'TABLE', @level1name = 'TIPO_DOCUMENTO'
+	@level1type = N'TABLE', @level1name = 'ASIGNACIONDIRECCION'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Identificador Unico del tipo de documento de la entidad TIPO_DOCUMENTO',
+	@name = 'MS_Description', @value = 'Identificador Unico de la Persona que va enlazada a la entidad ASGINACIONDIRECCION',
 	@level0type = N'SCHEMA', @level0name = 'Person',
-	@level1type = N'TABLE', @level1name = 'TIPO_DOCUMENTO',
-	@level2type = N'COLUMN', @level2name= 'idTipoDocumento'
+	@level1type = N'TABLE', @level1name = 'ASIGNACIONDIRECCION',
+	@level2type = N'COLUMN', @level2name= 'idPersona'
 GO
 
 EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Descripcion del tipo de documento de la entidad TIPO_DOCUMENTO',
+	@name = 'MS_Description', @value = 'Identificador Unico de la Direccion que va enlazada a la entidad ASGINACIONDIRECCION',
 	@level0type = N'SCHEMA', @level0name = 'Person',
-	@level1type = N'TABLE', @level1name = 'TIPO_DOCUMENTO',
-	@level2type = N'COLUMN', @level2name= 'descripcion'
+	@level1type = N'TABLE', @level1name = 'ASIGNACIONDIRECCION',
+	@level2type = N'COLUMN', @level2name= 'idDireccion'
 GO
 
---Tabla Person.DOCUMENTO
+/* DICCIONARIO DEL SCHEMA "Tabla Person.DOCUMENTO" */
 
 EXEC sys.sp_addextendedproperty
 	@name = 'MS_Description', @value = 'Entidad DOCUMENTO',
@@ -132,29 +302,7 @@ EXEC sys.sp_addextendedproperty
 	@level2type = N'COLUMN', @level2name= 'idTipoDocumento'
 GO
 
---Tabla Person.TIPO_MEDIO_CONTACTO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Entidad TIPO_MEDIO_CONTACTO',
-	@level0type = N'SCHEMA', @level0name = 'Person',
-	@level1type = N'TABLE', @level1name = 'TIPO_MEDIO_CONTACTO'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Identificador Unico del Tipo de Medio de Contacto',
-	@level0type = N'SCHEMA', @level0name = 'Person',
-	@level1type = N'TABLE', @level1name = 'TIPO_MEDIO_CONTACTO',
-	@level2type = N'COLUMN', @level2name= 'idTipoMedioContacto'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Descripcion del Tipo de Medio de Contacto',
-	@level0type = N'SCHEMA', @level0name = 'Person',
-	@level1type = N'TABLE', @level1name = 'TIPO_MEDIO_CONTACTO',
-	@level2type = N'COLUMN', @level2name= 'descripcion'
-GO
-
---Tabla Person.MEDIO_CONTACTO
+/* DICCIONARIO DEL SCHEMA "Tabla Person.MEDIO_CONTACTO" */
 
 EXEC sys.sp_addextendedproperty
 	@name = 'MS_Description', @value = 'Entidad MEDIO_CONTACTO',
@@ -190,31 +338,7 @@ EXEC sys.sp_addextendedproperty
 	@level2type = N'COLUMN', @level2name= 'idTipoMedioContacto'
 GO
 
--- Tabla Person.ASIGNACIONDIRECCION
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Entidad ASIGNACIONDIRECCION',
-	@level0type = N'SCHEMA', @level0name = 'Person',
-	@level1type = N'TABLE', @level1name = 'ASIGNACIONDIRECCION'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Identificador Unico de la Persona que va enlazada a la entidad ASGINACIONDIRECCION',
-	@level0type = N'SCHEMA', @level0name = 'Person',
-	@level1type = N'TABLE', @level1name = 'ASIGNACIONDIRECCION',
-	@level2type = N'COLUMN', @level2name= 'idPersona'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value = 'Identificador Unico de la Direccion que va enlazada a la entidad ASGINACIONDIRECCION',
-	@level0type = N'SCHEMA', @level0name = 'Person',
-	@level1type = N'TABLE', @level1name = 'ASIGNACIONDIRECCION',
-	@level2type = N'COLUMN', @level2name= 'idDireccion'
-GO
-
-
---------------PARTE BRISEIDA----------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------------------
---TABLA PERSONA
+/* DICCIONARIO DEL SCHEMA "Tabla Person.PERSONA" */
 
 EXEC sys.sp_addextendedproperty
 @name='MS_Description', @value='Tabla que contiene datos de persona',
@@ -251,8 +375,8 @@ EXEC sys.sp_addextendedproperty
 @level1type=N'TABLE', @level1name='PERSONA',
 @level2type=N'COLUMN', @level2name='codUsuario'
 GO
----------------------------------------------------------------------------------------
---TABLA PERSONA_JURIDICA
+
+/* DICCIONARIO DEL SCHEMA "Tabla Person.PERSONA_JURIDICA" */
 
 EXEC sys.sp_addextendedproperty
 @name='MS_Description', @value='Tabla que contiene datos de persona juridica',
@@ -282,8 +406,9 @@ EXEC sys.sp_addextendedproperty
 @level1type=N'TABLE', @level1name='PERSONA_JURIDICA',
 @level2type=N'COLUMN', @level2name='descripcion'
 GO
-----------------------------------------------------------------------------------------
---TABLA PERSONA_NATURAL
+
+/* DICCIONARIO DEL SCHEMA "Tabla Person.PERSONA_NATURAL" */
+
 EXEC sys.sp_addextendedproperty
 @name='MS_Description', @value='Tabla que contiene datos de persona natural',
 @level0type=N'SCHEMA', @level0name='Person',
@@ -325,6 +450,12 @@ EXEC sys.sp_addextendedproperty
 @level2type=N'COLUMN', @level2name='apellidoMaterno'
 GO
 
+EXEC sys.sp_addextendedproperty
+@name='MS_Description', @value='fecha de nacimiento de la persona natural',
+@level0type=N'SCHEMA', @level0name='Person',
+@level1type=N'TABLE', @level1name='PERSONA_NATURAL',
+@level2type=N'COLUMN', @level2name='fechaNacimiento'
+GO
 
 EXEC sys.sp_addextendedproperty
 @name='MS_Description', @value='sexo de la persona natural',
@@ -332,6 +463,53 @@ EXEC sys.sp_addextendedproperty
 @level1type=N'TABLE', @level1name='PERSONA_NATURAL',
 @level2type=N'COLUMN', @level2name='sexo'
 GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Person.TIPO_DOCUMENTO" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Entidad TIPO_DOCUMENTO',
+	@level0type = N'SCHEMA', @level0name = 'Person',
+	@level1type = N'TABLE', @level1name = 'TIPO_DOCUMENTO'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Identificador Unico del tipo de documento de la entidad TIPO_DOCUMENTO',
+	@level0type = N'SCHEMA', @level0name = 'Person',
+	@level1type = N'TABLE', @level1name = 'TIPO_DOCUMENTO',
+	@level2type = N'COLUMN', @level2name= 'idTipoDocumento'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Descripcion del tipo de documento de la entidad TIPO_DOCUMENTO',
+	@level0type = N'SCHEMA', @level0name = 'Person',
+	@level1type = N'TABLE', @level1name = 'TIPO_DOCUMENTO',
+	@level2type = N'COLUMN', @level2name= 'descripcion'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Person.TIPO_MEDIO_CONTACTO" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Entidad TIPO_MEDIO_CONTACTO',
+	@level0type = N'SCHEMA', @level0name = 'Person',
+	@level1type = N'TABLE', @level1name = 'TIPO_MEDIO_CONTACTO'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Identificador Unico del Tipo de Medio de Contacto',
+	@level0type = N'SCHEMA', @level0name = 'Person',
+	@level1type = N'TABLE', @level1name = 'TIPO_MEDIO_CONTACTO',
+	@level2type = N'COLUMN', @level2name= 'idTipoMedioContacto'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Descripcion del Tipo de Medio de Contacto',
+	@level0type = N'SCHEMA', @level0name = 'Person',
+	@level1type = N'TABLE', @level1name = 'TIPO_MEDIO_CONTACTO',
+	@level2type = N'COLUMN', @level2name= 'descripcion'
+GO
+
+
+/* DICCIONARIO DEL SCHEMA "Tabla Person.CARGO" */
 
 EXEC sys.sp_addextendedproperty
 @name='MS_Description', @value='Tabla que contiene el cargo de la persona',
@@ -368,7 +546,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 
-----
+/* DICCIONARIO DEL SCHEMA "Tabla Person.TIPO_CARGO" */
 
 EXEC sys.sp_addextendedproperty
 @name='MS_Description', @value='Tabla que contiene el tipo de cargo de persona',
@@ -397,54 +575,7 @@ EXEC sys.sp_addextendedproperty
 @level2type=N'COLUMN', @level2name='descripcionTipoCargo'
 GO
 
-
---------------------------------------------------------------------------------------------------------------
------------PARTE EDUU-----------------------------------------------------------------------------------------
---TABLA PERSONA (HISTORIAL)
-
-EXEC sys.sp_addextendedproperty
-@name='MS_Description', @value='Tabla que contiene datos de Persona (Historial)',
-@level0type=N'SCHEMA', @level0name='Historial',
-@level1type=N'TABLE', @level1name='PERSONA'
-GO
-
-EXEC sys.sp_addextendedproperty
-@name='MS_Description', @value='idHistorialPersona es el codigo del Historial de la Persona ',
-@level0type=N'SCHEMA', @level0name='Historial',
-@level1type=N'TABLE', @level1name='PERSONA',
-@level2type=N'COLUMN',@level2name='idHistorialPersona'
-GO
-
-EXEC sys.sp_addextendedproperty
-@name='MS_Description', @value='idPersona es el codigo de la tabla persona',
-@level0type=N'SCHEMA', @level0name='Historial',
-@level1type=N'TABLE', @level1name='PERSONA',
-@level2type=N'COLUMN',@level2name='idPersona'
-GO
-
-EXEC sys.sp_addextendedproperty
-@name='MS_Description', @value='indActivo Indica si esta activo o no',
-@level0type=N'SCHEMA', @level0name='Historial',
-@level1type=N'TABLE', @level1name='PERSONA',
-@level2type=N'COLUMN', @level2name='indActivo'
-GO
-
-EXEC sys.sp_addextendedproperty
-@name='MS_Description', @value='fecRegistro registra la fecha de registro de persona',
-@level0type=N'SCHEMA', @level0name='Historial',
-@level1type=N'TABLE', @level1name='PERSONA',
-@level2type=N'COLUMN', @level2name='fechaRegistro'
-GO
-
-EXEC sys.sp_addextendedproperty
-@name='MS_Description', @value='codUsuario es el codigo de usuario',
-@level0type=N'SCHEMA', @level0name='Historial',
-@level1type=N'TABLE', @level1name='PERSONA',
-@level2type=N'COLUMN', @level2name='codUsuario'
-GO
-
-
---Tabla EMPLEADO
+/* DICCIONARIO DEL SCHEMA "Tabla Person.EMPLEADO" */
 
 EXEC sys.sp_addextendedproperty
 @name='MS_Description', @value='Tabla que contiene datos del EMPLEADO',
@@ -494,7 +625,303 @@ EXEC sys.sp_addextendedproperty
 @level2type=N'COLUMN', @level2name='fechaSalida'
 GO
 
---TABLA MOVIMIENTO (HISTORIAL)
+/*TERCER SCHEMA*/
+/* DICCIONARIO DEL SCHEMA "Tabla Transaccion.MOVIMIENTO" */
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Entidad Movimiento',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Identificador unico de la entidad Movimiento',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
+	@level2type = N'COLUMN', @level2name= 'idMovimiento'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Cantidad del Movimiento',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
+	@level2type = N'COLUMN', @level2name= 'cantidadMovimiento'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Fecha del Movimiento',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
+	@level2type = N'COLUMN', @level2name= 'fechaMovimiento'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'ID de la Sucursal asociada a la Entidad .Movimiento',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
+	@level2type = N'COLUMN', @level2name= 'idSucursal'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'ID de la Cuenta asociada a la Entidad Movimiento',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO',
+	@level2type = N'COLUMN', @level2name= 'idCuenta'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Transaccion.MOVIMIENTO_TRANSFERENCIA" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Entidad Movimiento_Transferencia',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO_TRANSFERENCIA'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Identificador Unico de la Entidad Movimiento_Transferencia',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO_TRANSFERENCIA',
+	@level2type = N'COLUMN', @level2name= 'idMovimiento'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Identificador Unico de la Cuenta de Destino enlazada a la Entidad MOVIMIENTO_TRANSFERENCIA',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO_TRANSFERENCIA',
+	@level2type = N'COLUMN', @level2name= 'idCuentaDestino'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value = 'Descripcion de la Transferencia',
+	@level0type = N'SCHEMA', @level0name = 'Transaccion',
+	@level1type = N'TABLE', @level1name = 'MOVIMIENTO_TRANSFERENCIA',
+	@level2type = N'COLUMN', @level2name= 'descripcion'
+GO
+
+/*CUARTO SCHEMA*/
+/* DICCIONARIO DEL SCHEMA "Tabla Ubicacion.CIUDAD" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene los registros de cada sucursal',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'CIUDAD'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador unico para cada ciudad',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'CIUDAD',
+	@level2type = N'COLUMN', @level2name = 'idCiudad'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Nombre de la ciudad',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'CIUDAD',
+	@level2type = N'COLUMN', @level2name = 'nombreCiudad'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador foraneo unico de la tabla departamento',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'CIUDAD',
+	@level2type = N'COLUMN', @level2name = 'idDepartamento'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Ubicacion.DEPARTAMENTO" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene los registros de cada departamento',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DEPARTAMENTO'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador unico para cada departamento',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DEPARTAMENTO',
+	@level2type = N'COLUMN', @level2name = 'idDepartamento'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Nombre del departamento',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DEPARTAMENTO',
+	@level2type = N'COLUMN', @level2name = 'nombreDepartamento'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador foraneo unico proveniento de la tabla pais',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DEPARTAMENTO',
+	@level2type = N'COLUMN', @level2name = 'idPais'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Ubicacion.DIRECCION" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene registros de cada direccion',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DIRECCION'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador unico para cada direccion',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DIRECCION',
+	@level2type = N'COLUMN', @level2name = 'idDireccion'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Descripcion exacta de la direccion',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DIRECCION',
+	@level2type = N'COLUMN', @level2name = 'ubicacionDireccion'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador foraneo de la tabla ciudad',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DIRECCION',
+	@level2type = N'COLUMN', @level2name = 'idCiudad'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Indicador de estado de actividad de la direccion',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DIRECCION',
+	@level2type = N'COLUMN', @level2name = 'indActivo'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Fecha que se realizo el registro',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'DIRECCION',
+	@level2type = N'COLUMN', @level2name = 'fecRegistro'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Ubicacion.PAIS" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene los registros de cada pais',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'PAIS'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador unico para cada pais',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'PAIS',
+	@level2type = N'COLUMN', @level2name = 'idPais'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Nombre del pais en registro',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'PAIS',
+	@level2type = N'COLUMN', @level2name = 'nombrePais'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Ubicacion.SUCURSAL" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene los registros de cada sucursal',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'SUCURSAL'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador unico para cada sucursal',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'SUCURSAL',
+	@level2type = N'COLUMN', @level2name = 'idSucursal'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Nombre descriptivo de la sucursal',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'SUCURSAL',
+	@level2type = N'COLUMN', @level2name = 'nombreSucursal'
+GO
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Identificador foraneo unico proveniente de la tabla direccion',
+	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
+	@level1type = N'TABLE', @level1name = 'SUCURSAL',
+	@level2type = N'COLUMN', @level2name = 'idDireccion'
+GO
+
+
+/*QUINTO SCHEMA*/
+/* DICCIONARIO DEL SCHEMA "Tabla Historial.TIPO_SERIAL" */
+
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion TIPO_SERIAL',
+	@level0type = N'SCHEMA', @level0name = 'Historial',
+	@level1type = N'TABLE', @level1name = 'TIPO_SERIAL'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='identificador unico de la entidad idTipoSerial',
+	@level0type = N'SCHEMA', @level0name = 'Historial',
+	@level1type = N'TABLE', @level1name = 'TIPO_SERIAL',
+	@level2type = N'COLUMN', @level2name = 'idTipoSerial'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='campo nombreTipoSerial de la entidad idTipoSerial',
+	@level0type = N'SCHEMA', @level0name = 'Historial',
+	@level1type = N'TABLE', @level1name = 'TIPO_SERIAL',
+	@level2type = N'COLUMN', @level2name = 'nombreTipoSerial'
+GO
+EXEC sys.sp_addextendedproperty
+	@name = 'MS_Description', @value='ca,po descripcion de la entidad idTipoSerial',
+	@level0type = N'SCHEMA', @level0name = 'Historial',
+	@level1type = N'TABLE', @level1name = 'TIPO_SERIAL',
+	@level2type = N'COLUMN', @level2name = 'descripcion'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Historial.PERSONA" */
+
+EXEC sys.sp_addextendedproperty
+@name='MS_Description', @value='Tabla que contiene datos de Persona (Historial)',
+@level0type=N'SCHEMA', @level0name='Historial',
+@level1type=N'TABLE', @level1name='PERSONA'
+GO
+
+EXEC sys.sp_addextendedproperty
+@name='MS_Description', @value='idHistorialPersona es el codigo del Historial de la Persona ',
+@level0type=N'SCHEMA', @level0name='Historial',
+@level1type=N'TABLE', @level1name='PERSONA',
+@level2type=N'COLUMN',@level2name='idHistorialPersona'
+GO
+
+EXEC sys.sp_addextendedproperty
+@name='MS_Description', @value='idPersona es el codigo de la tabla persona',
+@level0type=N'SCHEMA', @level0name='Historial',
+@level1type=N'TABLE', @level1name='PERSONA',
+@level2type=N'COLUMN',@level2name='idPersona'
+GO
+
+EXEC sys.sp_addextendedproperty
+@name='MS_Description', @value='indActivo Indica si esta activo o no',
+@level0type=N'SCHEMA', @level0name='Historial',
+@level1type=N'TABLE', @level1name='PERSONA',
+@level2type=N'COLUMN', @level2name='indActivo'
+GO
+
+EXEC sys.sp_addextendedproperty
+@name='MS_Description', @value='fecRegistro registra la fecha de registro de persona',
+@level0type=N'SCHEMA', @level0name='Historial',
+@level1type=N'TABLE', @level1name='PERSONA',
+@level2type=N'COLUMN', @level2name='fechaRegistro'
+GO
+
+EXEC sys.sp_addextendedproperty
+@name='MS_Description', @value='codUsuario es el codigo de usuario',
+@level0type=N'SCHEMA', @level0name='Historial',
+@level1type=N'TABLE', @level1name='PERSONA',
+@level2type=N'COLUMN', @level2name='codUsuario'
+GO
+
+/* DICCIONARIO DEL SCHEMA "Tabla Historial.MOVIMIENTO" */
 
 EXEC sys.sp_addextendedproperty
 	@name = 'MS_Description', @value = 'Entidad Movimiento del Esquema Historial',
@@ -545,185 +972,8 @@ EXEC sys.sp_addextendedproperty
 	@level2type = N'COLUMN', @level2name= 'idCuenta'
 GO
 
+/* DICCIONARIO DEL SCHEMA "Tabla Historial.CUENTA" */
 
-----------------------PARTE DEIVI Y RONALD-----------------------------------------------------------------------------------------
-
-/*********************esquema ubicacion***********************/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Esquema de entidades que agrupa las tablas referentes a la ubicacion de la persona',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion'
-GO
-
-/*******************TABLA DIRECCION********************TODOS LOS DE ESTE DISEÑO SON RONALD***/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene registros de cada direccion',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DIRECCION'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador unico para cada direccion',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DIRECCION',
-	@level2type = N'COLUMN', @level2name = 'idDireccion'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Descripcion exacta de la direccion',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DIRECCION',
-	@level2type = N'COLUMN', @level2name = 'ubicacionDireccion'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador foraneo de la tabla ciudad',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DIRECCION',
-	@level2type = N'COLUMN', @level2name = 'idCiudad'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Indicador de estado de actividad de la direccion',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DIRECCION',
-	@level2type = N'COLUMN', @level2name = 'indActivo'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Fecha que se realizo el registro',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DIRECCION',
-	@level2type = N'COLUMN', @level2name = 'fecRegistro'
-GO
-
-/*******************TABLA SUCURSAL***********************/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene los registros de cada sucursal',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'SUCURSAL'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador unico para cada sucursal',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'SUCURSAL',
-	@level2type = N'COLUMN', @level2name = 'idSucursal'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Nombre descriptivo de la sucursal',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'SUCURSAL',
-	@level2type = N'COLUMN', @level2name = 'nombreSucursal'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador foraneo unico proveniente de la tabla direccion',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'SUCURSAL',
-	@level2type = N'COLUMN', @level2name = 'idDireccion'
-GO
-
-
-/*******************TABLA CIUDAD***********************/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene los registros de cada sucursal',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'CIUDAD'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador unico para cada ciudad',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'CIUDAD',
-	@level2type = N'COLUMN', @level2name = 'idCiudad'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Nombre de la ciudad',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'CIUDAD',
-	@level2type = N'COLUMN', @level2name = 'nombreCiudad'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador foraneo unico de la tabla departamento',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'CIUDAD',
-	@level2type = N'COLUMN', @level2name = 'idDepartamento'
-GO
-
-/*******************TABLA DEPARTAMENTO***********************/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene los registros de cada departamento',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DEPARTAMENTO'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador unico para cada departamento',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DEPARTAMENTO',
-	@level2type = N'COLUMN', @level2name = 'idDepartamento'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Nombre del departamento',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DEPARTAMENTO',
-	@level2type = N'COLUMN', @level2name = 'nombreDepartamento'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador foraneo unico proveniento de la tabla pais',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'DEPARTAMENTO',
-	@level2type = N'COLUMN', @level2name = 'idPais'
-GO
-
-/*******************TABLA PAIS***********************/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene los registros de cada pais',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'PAIS'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador unico para cada pais',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'PAIS',
-	@level2type = N'COLUMN', @level2name = 'idPais'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Nombre del pais en registro',
-	@level0type = N'SCHEMA', @level0name = 'Ubicacion',
-	@level1type = N'TABLE', @level1name = 'PAIS',
-	@level2type = N'COLUMN', @level2name = 'nombrePais'
-GO
-
-/*******************TABLA TIPO DE TARJETA***********************/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene los registros de cada tipo de tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TIPO_TARJETA'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Identificador unico para cada tipo de tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TIPO_TARJETA',
-	@level2type = N'COLUMN', @level2name = 'idTipoTarjeta'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Descripcion del tipo de la tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TIPO_TARJETA',
-	@level2type = N'COLUMN', @level2name = 'descripcion'
-GO
-
-/*******************TABLA CUENTA***********************/
 EXEC sys.sp_addextendedproperty
 	@name = 'MS_Description', @value='Tabla que contiene los datos historiales de las cuentas',
 	@level0type = N'SCHEMA', @level0name = 'Historial',
@@ -786,7 +1036,8 @@ EXEC sys.sp_addextendedproperty
 	@level2type = N'COLUMN', @level2name = 'codUsuario'
 GO
 
-/*******************TABLA SERIAL***********************/
+/* DICCIONARIO DEL SCHEMA "Tabla Historial.SERIAL" */
+
 EXEC sys.sp_addextendedproperty
 	@name = 'MS_Description', @value='Tabla que contiene los numeros autoincrementables para las tablas transaccionales',
 	@level0type = N'SCHEMA', @level0name = 'Historial',
@@ -820,245 +1071,9 @@ EXEC sys.sp_addextendedproperty
 	@level2type = N'COLUMN', @level2name = 'fechaModificacion'
 GO
 
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene datos de las tarjetas',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TARJETA'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='identificador unico de la entidad tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TARJETA',
-	@level2type = N'COLUMN', @level2name = 'idTarjeta'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo valor de tarjeta de la entidad tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TARJETA',
-	@level2type = N'COLUMN', @level2name = 'valorTarjeta'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo codigo de verificacion de la entidad tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TARJETA',
-	@level2type = N'COLUMN', @level2name = 'codigoVerificacion'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo fecha emision de la entindad tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TARJETA',
-	@level2type = N'COLUMN', @level2name = 'fechaEmision'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo fecha vencimiento de la entidad tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TARJETA',
-	@level2type = N'COLUMN', @level2name = 'fecVencimiento'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='llave foranea idTipotarjeta en de la entidad tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TARJETA',
-	@level2type = N'COLUMN', @level2name = 'idTipoTarjeta'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='llave foranea idMarcaTarjeta en de la entidad tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TARJETA',
-	@level2type = N'COLUMN', @level2name = 'idMarcaTarjeta'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='llave foranea idEstadoTarjeta en de la entidad tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'TARJETA',
-	@level2type = N'COLUMN', @level2name = 'idEstadoTarjeta'
-GO
-/*-------------------------------------------------------------------*/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene datos de estado tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'ESTADO_TARJETA'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='identificador unico de la entidad estado tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'ESTADO_TARJETA',
-	@level2type = N'COLUMN', @level2name = 'idEstadoTarjeta'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo estado tarjeta de la entidad estado tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'ESTADO_TARJETA',
-	@level2type = N'COLUMN', @level2name = 'estadoTarjeta'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo descripcion de la entidad estado tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'ESTADO_TARJETA',
-	@level2type = N'COLUMN', @level2name = 'descripcion'
-GO
-/*--------------------------------------*/
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene datos de marca tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'MARCA_TARJETA'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='identificador unico de la entidad marca tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'MARCA_TARJETA',
-	@level2type = N'COLUMN', @level2name = 'idMarcaTarjeta'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo  nombreMarca de la entidad marca tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'MARCA_TARJETA',
-	@level2type = N'COLUMN', @level2name = 'nombreMarca'
-GO
-
-/*--------------------------------*/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'ASIGNACIONTARJETA'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='llave foranea idTarjeta en asignacion tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'ASIGNACIONTARJETA',
-	@level2type = N'COLUMN', @level2name = 'idTarjeta'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='lleva foranea idCuenta en asignacion tarjeta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'ASIGNACIONTARJETA',
-	@level2type = N'COLUMN', @level2name = 'idCuenta'
-GO
-/*-----------------------*/
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion Cuenta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='identificador unico de la entidad Cuenta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA',
-	@level2type = N'COLUMN', @level2name = 'idCuenta'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='llave foranea idPersona en entidad Cuenta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA',
-	@level2type = N'COLUMN', @level2name = 'idPersona'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo saldo de la entidad Cuenta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA',
-	@level2type = N'COLUMN', @level2name = 'saldo'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo interes de la entidad Cuenta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA',
-	@level2type = N'COLUMN', @level2name = 'interes'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo indCuentaActivo de la entidad Cuenta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA',
-	@level2type = N'COLUMN', @level2name = 'indCuentaActivo'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo fecRegistro de la entidad Cuenta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA',
-	@level2type = N'COLUMN', @level2name = 'fecRegistro'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo codUsuario de la entidad Cuenta',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA',
-	@level2type = N'COLUMN', @level2name = 'codUsuario'
-GO
-
-/*--------------------------*/
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion CUENTA_PLAZO_FIJO',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='identificador foreneo idCuenta de la entidad CUENTA_PLAZO_FIJO',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
-	@level2type = N'COLUMN', @level2name = 'idCuenta'
-GO
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo fechaInicio entidad CUENTA_PLAZO_FIJO',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
-	@level2type = N'COLUMN', @level2name = 'fechaInicio'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo fechaTermino entidad CUENTA_PLAZO_FIJO',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
-	@level2type = N'COLUMN', @level2name = 'fechaTermino'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo cantidadInicial entidad CUENTA_PLAZO_FIJO',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
-	@level2type = N'COLUMN', @level2name = 'cantidadInicial'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo cantidadFinal entidad CUENTA_PLAZO_FIJO',
-	@level0type = N'SCHEMA', @level0name = 'Cuentas',
-	@level1type = N'TABLE', @level1name = 'CUENTA_PLAZO_FIJO',
-	@level2type = N'COLUMN', @level2name = 'cantidadFinal'
-GO
-
-/*--------*/
-
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='Tabla que contiene datos de asignacion TIPO_SERIAL',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'TIPO_SERIAL'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='identificador unico de la entidad idTipoSerial',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'TIPO_SERIAL',
-	@level2type = N'COLUMN', @level2name = 'idTipoSerial'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='campo nombreTipoSerial de la entidad idTipoSerial',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'TIPO_SERIAL',
-	@level2type = N'COLUMN', @level2name = 'nombreTipoSerial'
-GO
-EXEC sys.sp_addextendedproperty
-	@name = 'MS_Description', @value='ca,po descripcion de la entidad idTipoSerial',
-	@level0type = N'SCHEMA', @level0name = 'Historial',
-	@level1type = N'TABLE', @level1name = 'TIPO_SERIAL',
-	@level2type = N'COLUMN', @level2name = 'descripcion'
-GO
 
 
-
---Visualizar El Diccionario de Datos
+/* VISUALIZAR EL DICCIONARIO DE DATOS */
 
 SELECT t.name
 	   ,d1.value
@@ -1076,4 +1091,3 @@ SELECT t.name
 	and d2.minor_id = c.column_id
 	WHERE type = 'U'
 
-	
