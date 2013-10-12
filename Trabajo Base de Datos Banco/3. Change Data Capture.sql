@@ -90,7 +90,7 @@ GO
 
 --Ahora haremos cambios a nuestra tabla un insert y un update
 
-insert into Person.PERSONA(indActivo) values('A')
+insert into Person.PERSONA(idPersona,indActivo) values(1,'A')
 GO
 
 --Seleccionamos ambas tablas y observamos que se grabo correctamente en la tabla original

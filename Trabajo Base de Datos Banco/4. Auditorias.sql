@@ -47,11 +47,14 @@ FOR SERVER AUDIT [Auditoria_Servidor_BD]
 ADD (DELETE ON OBJECT::[Person].[PERSONA] By [dbo]),
 ADD (INSERT ON OBJECT::[Person].[PERSONA] By [dbo]),
 ADD (UPDATE ON OBJECT::[Person].[PERSONA] By [dbo]),
+ADD (SELECT ON OBJECT::[Person].[PERSONA] By [dbo]),
 ADD (DELETE ON OBJECT::[Transaccion].[MOVIMIENTO] By [dbo]),
 ADD (INSERT ON OBJECT::[Transaccion].[MOVIMIENTO] By [dbo]),
 ADD (UPDATE ON OBJECT::[Transaccion].[MOVIMIENTO] By [dbo]),
+ADD (SELECT ON OBJECT::[Transaccion].[MOVIMIENTO] By [dbo]),
 ADD (DELETE ON OBJECT::[Cuentas].[CUENTA] BY [dbo]),
 ADD (INSERT ON OBJECT::[Cuentas].[CUENTA] BY [dbo]),
-ADD (UPDATE ON OBJECT::[Cuentas].[CUENTA] BY [dbo])
+ADD (UPDATE ON OBJECT::[Cuentas].[CUENTA] BY [dbo]),
+ADD (SELECT ON OBJECT::[Cuentas].[CUENTA] BY [dbo])
 WITH (STATE = ON)
 GO

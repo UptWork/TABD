@@ -1,6 +1,7 @@
 --CREACION DE BASE DE DATOS--
 --Creacion de Filegroups (Se utilizo la ubicacion C:\ para evitar problemas al testearlo por el docente
 --entendemos que estos archivos deben estar aislados y separados para mayor productividad y seguridad....
+
 CREATE DATABASE Banco
 ON PRIMARY (
 NAME = N'Banco',
@@ -50,7 +51,7 @@ GO
 
 --Creacion de la tabla Persona la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.PERSONA (
-	idPersona BIGINT IDENTITY not null,
+	idPersona BIGINT not null, --Su id dependera de la tabla Serial
 	indActivo VARCHAR(1) not null
 		CONSTRAINT default_persona_indActivo default 'A',
 	fechaRegistro DATETIME not null
@@ -352,7 +353,7 @@ GO
 --Creacion de la tabla MOVIMIENTO la cual se encuentra dentro del Esquema "Transaccion"
 
 CREATE TABLE Transaccion.MOVIMIENTO (
-	idMovimiento BIGINT identity not null,
+	idMovimiento BIGINT not null, --Su ID dependera de la tabla Serial
 	cantidadMovimiento decimal(8,2) not null,
 	fechaMovimiento date not null constraint default_fechamovimiento_movimiento default getdate(),
 	idSucursal BIGINT not null,
