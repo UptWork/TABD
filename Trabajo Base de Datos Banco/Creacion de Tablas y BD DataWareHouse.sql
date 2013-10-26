@@ -113,18 +113,26 @@ CREATE TABLE TMPFactMovimiento(
 GO
 
 
---INNER JOINS
-/**************SCRIPT OLTP BANCO********/
-use Banco
+--PROCEDIMIENTOS ALMACENADOS PARA EXTRACCION DE DATOS -- RNLD
+
+CREATE PROCEDURE sprExtraerDatosEmpleados
+as
+begin
+set nocount on
+select pe.codigoEmpleado, ppn.primerNombre, ppn.segundoNombre,ppn.apellidoPaterno,ppn.apellidoMaterno,ppn.fechaNacimiento,ppn.sexo  from Person.EMPLEADO pe
+inner join Person.PERSONA_NATURAL ppn on ppn.idPersona = pe.idPersonaNatural
+set nocount off
+end
 go
 
 /**/
-select pe.codigoEmpleado, ppn.primerNombre, ppn.segundoNombre,ppn.apellidoPaterno,ppn.apellidoMaterno,ppn.fechaNacimiento,ppn.sexo  from Person.EMPLEADO pe
-inner join Person.PERSONA_NATURAL ppn on ppn.idPersona = pe.idPersonaNatural
-
-
-/**/
+CREATE PROCEDURE sprExtraerDatosSucursal
+as
+begin
+set nocount on
 select us.idSucursal,us.nombreSucursal, ud.ubicacionDireccion from Ubicacion.SUCURSAL us
 inner join Ubicacion.DIRECCION ud on ud.idDireccion = us.idDireccion
-
+set nocount off
+end
+go
 
