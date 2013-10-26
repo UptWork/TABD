@@ -111,3 +111,20 @@ CREATE TABLE TMPFactMovimiento(
 	empleadoSK bigint not null
 )
 GO
+
+
+--INNER JOINS
+/**************SCRIPT OLTP BANCO********/
+use Banco
+go
+
+/**/
+select pe.codigoEmpleado, ppn.primerNombre, ppn.segundoNombre,ppn.apellidoPaterno,ppn.apellidoMaterno,ppn.fechaNacimiento,ppn.sexo  from Person.EMPLEADO pe
+inner join Person.PERSONA_NATURAL ppn on ppn.idPersona = pe.idPersonaNatural
+
+
+/**/
+select us.idSucursal,us.nombreSucursal, ud.ubicacionDireccion from Ubicacion.SUCURSAL us
+inner join Ubicacion.DIRECCION ud on ud.idDireccion = us.idDireccion
+
+
