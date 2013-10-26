@@ -152,7 +152,7 @@ GO
 --Creacion de la tabla EMPLEADO la cual se encuentra dentro del Esquema Person
 CREATE TABLE Person.EMPLEADO (
 	idPersonaNatural bigint not null,
-	idJefe bigint not null,
+	idJefe bigint null,
 	idCargo smallint not null,
 	codigoEmpleado as 'EMP-'+replace(str(idPersonaNatural,5),' ','0'),
 	fechaIngreso date not null constraint check_fechaingreso_empleado check(fechaIngreso > '01/01/1990'),
@@ -164,13 +164,13 @@ CREATE TABLE Person.EMPLEADO (
 GO
 
 
---Creacion de Restricción Check - Fecha de Ingreso a la tabla EMPLEADO 
+--Creacion de Restricciï¿½n Check - Fecha de Ingreso a la tabla EMPLEADO 
 --dentro la cual se encuentra dentro del Esquema Person
 alter table Person.EMPLEADO
 add constraint ceck_fecha_salida check(fechaIngreso > fechaIngreso)
 GO
 
---Creacion de llave foránea idJefe ==> idPersonaNatural ambos campos de la misma Tabla Empleado la
+--Creacion de llave forï¿½nea idJefe ==> idPersonaNatural ambos campos de la misma Tabla Empleado la
 --cual se encuentra dentro del Esquema Person
 alter table Person.EMPLEADO
 add constraint FK_Person_EMPLEADO_X_EMPLEADO 
@@ -184,7 +184,7 @@ go
 CREATE SCHEMA Ubicacion AUTHORIZATION dbo
 go
 
---Creación de la tabla PAIS la cual se encuentra dentro del Esquema Ubicacion
+--Creaciï¿½n de la tabla PAIS la cual se encuentra dentro del Esquema Ubicacion
 CREATE TABLE Ubicacion.PAIS (
 	idPais INT not null,
 	nombrePais varchar(100) not null unique,
@@ -192,7 +192,7 @@ CREATE TABLE Ubicacion.PAIS (
 )
 GO
 
---Creación de la tabla DEPARTAMENTO la cual se encuentra dentro del Esquema Ubicacion
+--Creaciï¿½n de la tabla DEPARTAMENTO la cual se encuentra dentro del Esquema Ubicacion
 CREATE TABLE Ubicacion.DEPARTAMENTO (
 	idDepartamento INT not null,
 	nombreDepartamento varchar(100) not null,
@@ -202,7 +202,7 @@ CREATE TABLE Ubicacion.DEPARTAMENTO (
 )
 GO
 
---Creación de la tabla CIUDAD la cual se encuentra dentro del Esquema Ubicacion
+--Creaciï¿½n de la tabla CIUDAD la cual se encuentra dentro del Esquema Ubicacion
 CREATE TABLE Ubicacion.CIUDAD (
 	idCiudad int not null,
 	nombreCiudad varchar(100) not null,
@@ -212,7 +212,7 @@ CREATE TABLE Ubicacion.CIUDAD (
 )
 GO
 
---Creación de la tabla DIRECCION la cual se encuentra dentro del Esquema Ubicacion
+--Creaciï¿½n de la tabla DIRECCION la cual se encuentra dentro del Esquema Ubicacion
 CREATE TABLE Ubicacion.DIRECCION
 (
 	idDireccion BIGINT Identity not null,
@@ -236,7 +236,7 @@ CREATE TABLE Ubicacion.SUCURSAL (
 )
 GO
 
---NOTA IMPORTANTE: La tabla ASIGNACIONDIRECCION del Esquema "Person" necesariamente tiene que estar en esta posición
+--NOTA IMPORTANTE: La tabla ASIGNACIONDIRECCION del Esquema "Person" necesariamente tiene que estar en esta posiciï¿½n
 --para que no surgan errores mas adelante a la hora de ejecutar el script, ya que la tabla "ASIGNACIONDIRECCION"
 --necesita de la tabla DIRECCION la cual se encuentra dentro del Esquema "Ubicacion"
 
