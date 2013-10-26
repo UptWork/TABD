@@ -1,0 +1,56 @@
+
+USE Banco
+GO
+
+insert into Person.PERSONA values (1,'','','')
+insert into Person.PERSONA values (2,'','','')
+insert into Person.PERSONA values (3,'','','')
+insert into Person.PERSONA values (4,'','','')
+insert into Person.PERSONA values (5,'','','')
+
+
+insert into Person.PERSONA_NATURAL values (1,'Edu','Junior','Vera','Alvarez','1992-07-07','M') 
+insert into Person.PERSONA_NATURAL values (2,'Deivi','Alfredo','Arocutipa','Serrano','1991-10-10','M') 
+insert into Person.PERSONA_NATURAL values (3,'Diego','Jose','Cutipa','Alanoca','1991-10-10','M') 
+insert into Person.PERSONA_NATURAL values (4,'Raul','Brian','Paz','Japura','1991-10-10','M') 
+insert into Person.PERSONA_NATURAL values (5,'Charlie','Felipe','Ochoa','Japura','1991-10-10','M') 
+
+insert into Cuentas.CUENTA values (1,1000,400,'A','','COD-0001')
+insert into Cuentas.CUENTA values (2,1000,400,'A','','COD-0002')
+insert into Cuentas.CUENTA values (3,1000,400,'A','','COD-0003')
+insert into Cuentas.CUENTA values (4,1000,400,'A','','COD-0004')
+
+--Estos valores lo agrege via DISEÑO porque con el script no salia :/
+insert into Person.CARGO values (1,1,'Administrador','Administrador')
+insert into Person.CARGO values (2,2,'Cajero','Cajero')
+insert into Person.CARGO values (3,3,'Secretario','Secretario')
+insert into Person.CARGO values (4,4,'Otro','Otro')
+insert into Person.CARGO values (5,5,'Logistica','Otro')
+ 
+insert into Person.TIPO_CARGO values (1,'Administrador','Administrador') 
+insert into Person.TIPO_CARGO values (2,'Cajero','Cajero') 
+insert into Person.TIPO_CARGO values (3,'Secretario','Secretario') 
+insert into Person.TIPO_CARGO values (4,'Otro','Otro') 
+insert into Person.TIPO_CARGO values (5,'Logistica','Otro') 
+
+
+insert into Person.EMPLEADO values (1,null,1,'2013-01-01','2013-10-10') 
+insert into Person.EMPLEADO values (2,null,2,'2013-01-01','2013-10-10') 
+insert into Person.EMPLEADO values (3,null,3,'2013-01-01','2013-10-10') 
+insert into Person.EMPLEADO values (4,null,4,'2014-01-01','2017-10-10') 
+insert into Person.EMPLEADO values (5,null,5,'2014-01-01','2017-10-10') 
+
+
+--Primero ejecutar esto pa q no salga error en el ingreso de registros de la SUCURSAL
+
+
+insert into Ubicacion.PAIS values (1,'Peru')
+insert into Ubicacion.PAIS values (2,'Chile')
+
+
+insert into Ubicacion.DEPARTAMENTO values (1,'Tacna',1)
+insert into Ubicacion.DEPARTAMENTO values (2,'Puno',1)
+insert into Ubicacion.DEPARTAMENTO values (3,'Arequipa',1)
+insert into Ubicacion.DEPARTAMENTO values (4,'Lima',1)
+
+
