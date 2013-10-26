@@ -167,7 +167,7 @@ GO
 --Creacion de Restricci�n Check - Fecha de Ingreso a la tabla EMPLEADO 
 --dentro la cual se encuentra dentro del Esquema Person
 alter table Person.EMPLEADO
-add constraint ceck_fecha_salida check(fechaIngreso > fechaIngreso)
+add constraint check_fecha_salida check(fechaSalida > fechaIngreso)
 GO
 
 --Creacion de llave for�nea idJefe ==> idPersonaNatural ambos campos de la misma Tabla Empleado la
