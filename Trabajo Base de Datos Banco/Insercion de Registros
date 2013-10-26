@@ -1,4 +1,3 @@
-
 USE Banco
 GO
 
@@ -53,4 +52,19 @@ insert into Ubicacion.DEPARTAMENTO values (2,'Puno',1)
 insert into Ubicacion.DEPARTAMENTO values (3,'Arequipa',1)
 insert into Ubicacion.DEPARTAMENTO values (4,'Lima',1)
 
+insert into Ubicacion.CIUDAD values (1,'Tacna',1)
+insert into Ubicacion.CIUDAD values (2,'Gorge Basadre',1)
+insert into Ubicacion.CIUDAD values (3,'Tarata',1)
+insert into Ubicacion.CIUDAD values (4,'Candarave',1)
 
+
+insert into Ubicacion.DIRECCION values ('Alto Alianza',1,'A','')
+insert into Ubicacion.DIRECCION values ('Urb Tacna',1,'A','')
+insert into Ubicacion.DIRECCION values ('Urb basadre',2,'A','')
+insert into Ubicacion.DIRECCION values ('Urb Centinella',3,'A','')
+
+
+insert into Ubicacion.SUCURSAL values ('Callao',1)
+insert into Ubicacion.SUCURSAL values ('Lima',2)
+insert into Ubicacion.SUCURSAL values ('Tacna',3)
+insert into Ubicacion.SUCURSAL values ('Tacna',4)
