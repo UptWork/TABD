@@ -115,9 +115,9 @@ CREATE TABLE TMPFactMovimiento(
 )
 GO
 
---Creacion procedimientos almacenados
---alter table FactMovimiento
---check constraint FK_DimSucursal_FactMovimiento
+--Creacion procedimientos almacenados DE CARGA
+alter table FactMovimiento
+check constraint FK_DimSucursal_FactMovimiento
 
 CREATE PROC sprCargarSucursal
 AS
@@ -149,6 +149,91 @@ BEGIN
 END
 GO
 
+alter table FactMovimiento
+check constraint FK_DimCuenta_FactMovimiento
+go
+CREATE PROC sprCargarCuenta
+AS
+BEGIN
+	SET NOCOUNT ON
+	INSERT DimCuenta(idCuenta, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno,fechaNacimiento,sexo,fechaInicio,indicadorActivo)
+	SELECT	idCuenta
+			,primerNombre
+			,segundoNombre
+			,apellidoPaterno
+			,apellidoMaterno
+			,fechaNacimiento
+			,sexo
+			,GETDATE()			
+			, 1
+	FROM	(
+		MERGE DimCuenta DS
+		USING TMPDimCuenta TDS
+		ON	DS.idCuenta = TDS.idCuenta
+		AND DS.indicadorActivo = 1
+		WHEN MATCHED AND (
+			DS.primerNombre <> TDS.primerNombre
+			OR DS.segundoNombre <> TDS.segundoNombre
+			OR DS.apellidoPaterno <> TDS.apellidoPaterno
+			OR DS.apellidoMaterno <> TDS.apellidoMaterno
+			OR DS.fechaNacimiento <> TDS.fechaNacimiento
+			OR DS.sexo <> TDS.sexo			
+			) THEN
+		UPDATE SET fechaFin = GETDATE(),indicadorActivo = 0
+		WHEN NOT MATCHED THEN
+		INSERT (idCuenta, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno,fechaNacimiento,sexo,fechaFin,indicadorActivo)
+		VALUES (TDS.idCuenta, TDS.primerNombre, TDS.segundoNombre, TDS.apellidoPaterno,TDS.apellidoMaterno,TDS.fechaNacimiento,TDS.sexo,fechaProceso,1)
+		OUTPUT $action, TDS.idCuenta, TDS.primerNombre, TDS.segundoNombre, TDS.apellidoPaterno,TDS.apellidoMaterno,TDS.fechaNacimiento,TDS.sexo) 
+		
+		AS C (ACCION, idCuenta, primerNombre, segundoNombre,apellidoPaterno,apellidoMaterno,fechaNacimiento,sexo)
+	WHERE ACCION = 'UPDATE';
+	SET NOCOUNT OFF
+END
+GO
+
+
+--Empleado--
+alter table FactMovimiento
+nocheck constraint FK_DimEmpleado_FactMovimiento
+
+CREATE PROC sprCargarEmpleado
+AS
+BEGIN
+	SET NOCOUNT ON
+	INSERT DimEmpleado(idEmpleado, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno,fechaNacimiento,sexo,fechaInicio,indicadorActivo)
+	SELECT	idEmpleado
+			,primerNombre
+			,segundoNombre
+			,apellidoPaterno
+			,apellidoMaterno
+			,fechaNacimiento
+			,sexo
+			,GETDATE()			
+			, 1
+	FROM	(
+		MERGE DimEmpleado DS
+		USING TMPDimEmpleado TDS
+		ON	DS.idEmpleado = TDS.idEmpleado
+		AND DS.indicadorActivo = 1
+		WHEN MATCHED AND (
+			DS.primerNombre <> TDS.primerNombre
+			OR DS.segundoNombre <> TDS.segundoNombre
+			OR DS.apellidoPaterno <> TDS.apellidoPaterno
+			OR DS.apellidoMaterno <> TDS.apellidoMaterno
+			OR DS.fechaNacimiento <> TDS.fechaNacimiento
+			OR DS.sexo <> TDS.sexo			
+			) THEN
+		UPDATE SET fechaFin = GETDATE(),indicadorActivo = 0
+		WHEN NOT MATCHED THEN
+		INSERT (idEmpleado, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno,fechaNacimiento,sexo,fechaFin,indicadorActivo)
+		VALUES (TDS.idEmpleado, TDS.primerNombre, TDS.segundoNombre, TDS.apellidoPaterno,TDS.apellidoMaterno,TDS.fechaNacimiento,TDS.sexo,fechaProceso,1)
+		OUTPUT $action, TDS.idEmpleado, TDS.primerNombre, TDS.segundoNombre, TDS.apellidoPaterno,TDS.apellidoMaterno,TDS.fechaNacimiento,TDS.sexo) 
+		
+		AS C (ACCION, idEmpleado, primerNombre, segundoNombre,apellidoPaterno,apellidoMaterno,fechaNacimiento,sexo)
+	WHERE ACCION = 'UPDATE';
+	SET NOCOUNT OFF
+END
+GO
 
 
 --Procedimientos Extraer Datos EN OLTP 
@@ -190,25 +275,35 @@ END
 GO
 
 CREATE PROCEDURE sprExtraerDatosEmpleados
+(
+	@fechaProceso DATETIME
+)
 as
 begin
 set nocount on
-select pe.idPersonaNatural, ppn.primerNombre, ppn.segundoNombre,ppn.apellidoPaterno,ppn.apellidoMaterno,ppn.fechaNacimiento,ppn.sexo  from Person.EMPLEADO pe
+select fechaProceso =@fechaProceso, pe.idPersonaNatural, ppn.primerNombre, ppn.segundoNombre,ppn.apellidoPaterno,ppn.apellidoMaterno,ppn.fechaNacimiento,ppn.sexo  from Person.EMPLEADO pe
 inner join Person.PERSONA_NATURAL ppn on ppn.idPersona = pe.idPersonaNatural
 set nocount off
 end
 go
 
 CREATE PROCEDURE sprExtraerDatosCuenta
+(
+	@fechaProceso DATETIME
+)
 as
 begin
 set nocount on
-select cc.idCuenta, ppn.primerNombre, ppn.segundoNombre, ppn.apellidoPaterno, ppn.apellidoMaterno, ppn.fechaNacimiento, ppn.sexo from Cuentas.CUENTA cc
+select fechaProceso = @fechaProceso,cc.idCuenta, ppn.primerNombre, ppn.segundoNombre, ppn.apellidoPaterno, ppn.apellidoMaterno, ppn.fechaNacimiento, ppn.sexo from Cuentas.CUENTA cc
 inner join Person.PERSONA pp on pp.idPersona = cc.idPersona
 inner join Person.PERSONA_NATURAL ppn on ppn.idPersona = pp.idPersona
 set nocount off
 end
 go
 
-
+UPDATE Ubicacion.SUCURSAL
+set nombreSucursal = 'TEST'
+where idSucursal = 1
 SELECT * FROM DimSucursal
+SELECT * FROM DimEmpleado
+SELECT * FROM DimCuenta
