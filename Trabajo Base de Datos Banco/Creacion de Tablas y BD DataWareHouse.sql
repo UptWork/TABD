@@ -136,3 +136,15 @@ set nocount off
 end
 go
 
+/**/
+CREATE PROCEDURE sprExtraerDatosCuenta
+as
+begin
+set nocount on
+select cc.idCuenta, ppn.primerNombre, ppn.segundoNombre, ppn.apellidoPaterno, ppn.apellidoMaterno, ppn.fechaNacimiento, ppn.sexo from Cuentas.CUENTA cc
+inner join Person.PERSONA pp on pp.idPersona = cc.idPersona
+inner join Person.PERSONA_NATURAL ppn on ppn.idPersona = pp.idPersona
+set nocount off
+end
+go
+
