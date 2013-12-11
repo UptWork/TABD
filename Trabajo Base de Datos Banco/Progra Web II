@@ -1,0 +1,229 @@
+//1.
+
+CREATE DATABASE bd_ejemplo
+
+--2.
+
+CREATE DATABASE VENTAS2013_1
+ON PRIMARY
+(
+	NAME = N'VENTAS2013_1',
+	FILENAME = N'D:\DATABASE\VENTAS2013_1.mdf',
+	SIZE = 20MB,
+	MAXSIZE = 80MB,
+	FILEGROWTH = 10MB
+)
+
+--3.
+
+USE VENTAS2013_1
+GO
+
+CREATE TABLE Distrito(
+	idDistrito BIGINT IDENTITY,
+	nombreDistrito VARCHAR(50),
+	CONSTRAINT PK_idDistrito_Distrito PRIMARY KEY(idDistrito)
+)
+GO
+
+CREATE TABLE Empleado(
+	idEmpleado BIGINT IDENTITY,
+	idDistrito BIGINT,
+	nombreEmpleado VARCHAR(100),
+	fechaNacimiento DATETIME,
+	fechaIngreso DATETIME DEFAULT GETDATE(),
+	telefono VARCHAR(15),
+	CONSTRAINT PK_idEmpleado_Empleado PRIMARY KEY(idEmpleado),
+	CONSTRAINT FK_idDistrito_Empleado FOREIGN KEY(idDistrito) REFERENCES Distrito(idDistrito)
+)
+GO
+
+CREATE TABLE TipoProducto(
+	idTipoProducto VARCHAR(10),
+	nombreTipoProducto VARCHAR(50),
+	CONSTRAINT PK_idTipoProducto_TipoProducto PRIMARY KEY(idTipoProducto)
+)
+GO
+
+CREATE TABLE Producto(
+	idProducto BIGINT IDENTITY,
+	idTipoProducto VARCHAR(10),
+	nombreProducto VARCHAR(100),
+	precioProducto DECIMAL(8,2),
+	CONSTRAINT PK_idProducto_Producto PRIMARY KEY(idProducto),
+	CONSTRAINT FK_idTipoProducto_Producto FOREIGN KEY(idTipoProducto) REFERENCES TipoProducto(idTipoProducto)
+)
+GO
+
+CREATE TABLE Cliente(
+	idCliente BIGINT IDENTITY,
+	nombreCliente VARCHAR(100),
+	correoElectronico VARCHAR(100),
+	fechaNacimiento DATETIME,
+	CONSTRAINT PK_idCliente_Cliente PRIMARY KEY(idCliente)
+)
+GO
+
+CREATE TABLE Boleta(
+	idBoleta BIGINT IDENTITY,
+	idEmpleado BIGINT,
+	idCliente BIGINT,
+	CONSTRAINT PK_idBoleta PRIMARY KEY(idBoleta),
+	CONSTRAINT FK_idEmpleado_Boleta FOREIGN KEY(idEmpleado) REFERENCES Empleado(idEmpleado),
+	CONSTRAINT FK_idCliente_Boleta FOREIGN KEY(idCliente) REFERENCES Cliente(idCliente)
+)
+GO
+
+CREATE TABLE DetalleBoleta(
+	idBoleta BIGINT,
+	idProducto BIGINT,
+	cantidadProducto INT,
+	CONSTRAINT FK_IdProducto_DetalleBoleta FOREIGN KEY(idProducto) REFERENCES Producto(idProducto),
+	CONSTRAINT FK_idBoleta_DetalleBoleta FOREIGN KEY(idBoleta) REFERENCES Boleta(idBoleta)
+)
+GO
+
+
+
+
+--4.
+
+--a
+
+ALTER TABLE Cliente
+ADD CONSTRAINT DEFAULT_correoElectronico DEFAULT 'NO REGISTRA' FOR correoElectronico
+GO
+--b
+
+ALTER TABLE Producto
+ADD CONSTRAINT CHECK_precioProducto CHECK(precioProducto>1 and precioProducto <= 1000)
+GO
+
+ALTER TABLE Empleado
+ADD CONSTRAINT CHECK_fechaNacimiento CHECK(fechaNacimiento<GETDATE())
+GO
+
+ALTER TABLE TipoProducto
+ADD CONSTRAINT DEFAULT_idTipoProducto DEFAULT 'TIPO01' FOR idTipoProducto
+GO
+--e
+
+CREATE TABLE Empleado_BAK(
+	idEmpleadoBAK BIGINT IDENTITY,
+	idEmpleado BIGINT,
+	idDistrito BIGINT,
+	nombreEmpleado VARCHAR(100),
+	fechaNacimiento DATETIME,
+	fechaIngreso DATETIME,
+	telefono VARCHAR(15),
+	CONSTRAINT PK_idEmpleadoBAK PRIMARY KEY(idEmpleadoBAK),
+	CONSTRAINT FK_idDistritoBAK FOREIGN KEY(idDistrito) REFERENCES Distrito(idDistrito)
+)
+GO
+
+--DISTRITO
+INSERT INTO Distrito(nombreDistrito) values('Tacna')
+INSERT INTO Distrito(nombreDistrito) values('Candarave')
+INSERT INTO Distrito(nombreDistrito) values('Alto del Alianza')
+INSERT INTO Distrito(nombreDistrito) values('Gregorio Albarracin')
+INSERT INTO Distrito(nombreDistrito) values('Pocollay')
+GO
+
+INSERT INTO Empleado_BAK(idEmpleado,idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(1,1,'Juan Perez','1990-01-02','7485965')
+INSERT INTO Empleado_BAK(idEmpleado,idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(2,1,'Sandro Jurado','1990-05-08','4745464')
+INSERT INTO Empleado_BAK(idEmpleado,idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(3,2,'Agustin Martinez','1990-07-07','125426')
+INSERT INTO Empleado_BAK(idEmpleado,idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(4,2,'Charlie Ochoa','1990-08-04','3256542')
+INSERT INTO Empleado_BAK(idEmpleado,idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(5,3,'Felipe Juarez','1990-09-05','9856548')
+
+GO
+
+--5
+
+--TipoProducto
+INSERT INTO TipoProducto(idTipoProducto,nombreTipoProducto) values('TIPO01','Computadoras')
+INSERT INTO TipoProducto(idTipoProducto,nombreTipoProducto) values('TIPO02','Electrodomesticos')
+
+GO
+
+--Producto
+INSERT INTO Producto(idTipoProducto,nombreProducto,precioProducto) values('TIPO01','CD-ROM',10)
+INSERT INTO Producto(idTipoProducto,nombreProducto,precioProducto) values('TIPO01','PC Todo en Uno',989)
+INSERT INTO Producto(idTipoProducto,nombreProducto,precioProducto) values('TIPO01','Teclado Inalambrico',45)
+INSERT INTO Producto(idTipoProducto,nombreProducto,precioProducto) values('TIPO02','Mouse Inalambrico',30)
+INSERT INTO Producto(idTipoProducto,nombreProducto,precioProducto) values('TIPO02','Laptop Convertible a Tablet',999)
+GO 
+
+SELECT * FROM Producto
+--EMPLEADO
+INSERT INTO Empleado(idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(1,'Juan Perez','1990-01-02','7485965')
+INSERT INTO Empleado(idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(1,'Sandro Jurado','1990-05-08','4745464')
+INSERT INTO Empleado(idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(2,'Agustin Martinez','1990-07-07','125426')
+INSERT INTO Empleado(idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(2,'Charlie Ochoa','1990-08-04','3256542')
+INSERT INTO Empleado(idDistrito,nombreEMpleado,fechaNacimiento,telefono) values(3,'Felipe Juarez','1990-09-05','9856548')
+GO
+
+--Cliente
+INSERT INTO Cliente(nombreCliente,correoElectronico,fechaNacimiento) values('Richard Guzman','rguzman@hotmail.com','1990-01-02')
+INSERT INTO Cliente(nombreCliente,correoElectronico,fechaNacimiento) values('Ignacia Loma','iloma@gmail.com','1990-05-08')
+INSERT INTO Cliente(nombreCliente,fechaNacimiento) values('Christian Fernandez','1990-08-04')
+INSERT INTO Cliente(nombreCliente,fechaNacimiento) values('Benjamin Ramirez','1990-09-05')
+INSERT INTO Cliente(nombreCliente,fechaNacimiento) values('Angelo Velez','1990-07-07')
+GO
+
+--BOLETA
+INSERT INTO Boleta(idCliente,idEmpleado) values(1,1)
+INSERT INTO Boleta(idCliente,idEmpleado) values(1,2)
+INSERT INTO Boleta(idCliente,idEmpleado) values(2,1)
+INSERT INTO Boleta(idCliente,idEmpleado) values(2,3)
+INSERT INTO Boleta(idCliente,idEmpleado) values(3,4)
+GO
+
+--DETALLEBOLETA
+INSERT INTO DetalleBoleta(idBoleta,idProducto,cantidadProducto) values(1,5,3)
+INSERT INTO DetalleBoleta(idBoleta,idProducto,cantidadProducto) values(1,4,4)
+INSERT INTO DetalleBoleta(idBoleta,idProducto,cantidadProducto) values(1,3,5)
+INSERT INTO DetalleBoleta(idBoleta,idProducto,cantidadProducto) values(2,2,7)
+INSERT INTO DetalleBoleta(idBoleta,idProducto,cantidadProducto) values(2,1,8)
+GO
+
+
+
+--6
+SELECT * FROM Cliente
+UPDATE Cliente
+SET
+	Cliente.correoElectronico = 'prueba@hotmail.com'
+WHERE Cliente.correoElectronico = 'NO REGISTRA'
+GO
+
+--7
+SELECT * FROM Empleado WHERE idEmpleado = 1
+UPDATE Empleado
+SET 
+	Empleado.fechaIngreso = GETDATE(),
+	Empleado.telefono = '428872'
+WHERE Empleado.idEmpleado = 1
+
+
+--8
+
+create nonclustered  index ApellidoCliente
+on Cliente(nombreCliente)
+
+--9
+
+SELECT 
+	 E.nombreEmpleado
+	,D.nombreDistrito
+
+FROM Empleado E 
+	INNER JOIN 
+	Distrito D
+ON E.idDistrito = D.idDistrito
+
+--10
+
+SELECT
+	*
+FROM Cliente C
+WHERE MONTH(c.fechaNacimiento) BETWEEN 1 AND 7
